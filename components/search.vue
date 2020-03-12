@@ -1,17 +1,20 @@
 <template>
 	<div>
-		<img src="~/assets/search.png" alt="иконка поиска" title="найти фильм" id="searchFilm" @click='focus'>
+		<img src="~/assets/search.png" alt="иконка поиска" title="найти фильм" id="searchFilm" @click='focus()'>
 		
-		<input v-if='search'  type="text" name='nameFilm' class='animated bounceInRight form-control' id='nameFi' v-on:keyup.prevent.enter='nameForSearch' autofocus placeholder="найти фильм" value="">
+		<input v-if='search'  type="text" name='nameFilm' class='animated bounceInRight form-control' id='nameFi' v-on:keyup.prevent.enter='nameForSearch' autofocus placeholder="найти фильм" v-model="value">
 	</div>
 </template>
 <script>
 import JQuery from 'jquery'
  	let $ = JQuery
+
 	export default{
 		data(){
 			return{
-				search:''
+				search:'',
+				value:'',
+
 			}
 		},
 		async asyncData(){
@@ -20,17 +23,36 @@ import JQuery from 'jquery'
 		},
 		methods:{
 			focus(){
-				var Vinput1 = $('#nameFi').val()
-				this.search = !this.search
-				if(this.search == true && Vinput1 !=''){
-					alert(1)
+				//console.log(this.value)
+				this.search = !this.search				
+				if(this.value !=''){				
+					localStorage.setItem('SearchFilm',this.value.trim())
+					this.value = ''
 				}
+				
 			},
-			nameForSearch(){
-				var Vinput = $('#nameFi').val()
-				//console.log(Vinput)
-				localStorage.setItem('SearchFilm',Vinput)
-			}
+			async nameForSearch(){ //https://maximum-movies.com/searchfilm
+				var Vinput = $('#nameFi').val().trim()
+				if(Vinput !=""){
+					localStorage.setItem('SearchFilm',Vinput)
+					//window.location.href='https://maximum-movies.com'
+					//var data = await fetch('https://maximum-movies.com/searchfilm').then(res=>res.json());
+					//console.log(data)
+					$.ajax({
+			          url:'https://maximum-movies.com/searchfilm',
+			          type:"POST",
+			          cache: false,
+			          data:{'nameFilm':Vinput},
+			          success:function(data){
+			          	console.log(JSON.parse(data))
+			          	if(JSON.parse(data) == null){
+			          		alert('Нет такой буквы')
+			          	}
+			          }
+		        })		
+				}		
+				//console.log(Vinput)			
+			},
 		}
 	}
 </script>
