@@ -3,6 +3,7 @@
 		<img src="~/assets/search.png" alt="иконка поиска" title="найти фильм" id="searchFilm" @click='focus()'>
 		
 		<input v-if='search'  type="text" name='nameFilm' class='animated bounceInRight form-control' id='nameFi' v-on:keyup.prevent.enter='nameForSearch' autofocus placeholder="найти фильм" v-model="value">
+		<video src="https://maximum-movies.com/assets/build/randomFilm/video/The_Nice_Guys_2016_720p_BDRip.mp4" controls></video>
 	</div>
 </template>
 <script>
@@ -44,9 +45,15 @@ import JQuery from 'jquery'
 			          cache: false,
 			          data:{'nameFilm':Vinput},
 			          success:function(data){
-			          	console.log(JSON.parse(data))
+			          	console.log(JSON.parse(data).url)
+
 			          	if(JSON.parse(data) == null){
 			          		alert('Нет такой буквы')
+			          	}
+			          	else{
+			          		$('video').attr({
+			          			src:'https://maximum-movies.com/' + JSON.parse(data).url
+			          		})
 			          	}
 			          }
 		        })		
