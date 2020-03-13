@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container">
+    <div class="container mt-2">
       <h1>{{content.name}}</h1>
       <button class="btn btn-primary">road film</button>
     </div>
@@ -9,21 +9,21 @@
 
 <script>
 
-
 export default {
   components: {
     
   },
   data(){
       return{
-        content:[]
+        content:[],
       }
     },
   async asyncData({ $axios }){
       var category = 'comedy'
       var content =  await $axios.$get('https://maximum-movies.com/php-films-res?'+category);
+      
       return{content}
-      console.log(content)
+      //console.log(content)
     },
     methods:{
 
