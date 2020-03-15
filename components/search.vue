@@ -52,7 +52,8 @@ import JQuery from 'jquery'
 			          	}
 			          	else{
 			          		boo.push(true)
-			          		boo.push('https://maximum-movies.com/' + JSON.parse(data).url)   		         		         		
+			          		boo.push('https://maximum-movies.com/' + JSON.parse(data).url)
+			          		boo.push(JSON.parse(data).name) 		         		         		
 			          				          		
 			          	}
 			          }
@@ -60,7 +61,8 @@ import JQuery from 'jquery'
 		        //console.log(boo)		        	
 				this.video = boo //после запроса в переменной boo лежат данные. Кладем в переменную vue и обращемся в тегах к ней
 				// async await впринципе можно не писать, но он вернет красивый результат выполнения 
-				//console.log(this.video)		
+				//console.log(this.video)
+				await localStorage.setItem('titleFilm',boo[2])		
 				}				
 			},
 		}
@@ -77,7 +79,7 @@ import JQuery from 'jquery'
 	#searchFilm{
 		width:50px;
 		position:fixed;
-		bottom:5px;
+		bottom:25px;
 		right:15px;
 		z-index:10000;
 		cursor:pointer;
@@ -88,5 +90,13 @@ import JQuery from 'jquery'
 		right:65px;
 		z-index:10000;
 		max-width:230px;
+	}
+	video{
+		max-width:100%;
+	}
+	@media (min-width:200px) and (max-width:650px){
+		video{
+			margin-top:15%;
+		}
 	}
 </style>
