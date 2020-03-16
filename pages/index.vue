@@ -1,10 +1,14 @@
 <template>
-  <div>
+  <div id="main_page">
     <div class="container mt-2">
       <!-- <h1>{{content.name}}</h1> -->
-      <h2 v-if='shit.length > 0'>{{shit[0].name}}</h2>
+      <div v-if='category.length > 0' id="response-category-block">
+        <h2 >{{category[0].name}}</h2>
+        <img :src="'https://maximum-movies.com/'+category[0].img_url" alt="">
+      </div>      
+
       <!-- <button class="btn btn-primary" @click='Film_name'>comedy</button> -->
-      <button class="btn btn-primary" @click=''>comedy</button>
+      <button class="btn btn-primary" @click='category_go("comedy")'>comedy</button>
       <button class="btn btn-primary" @click='category_go("drama")'>drama</button>
       <button class="btn btn-primary" @click='category_go("thriller")'>thriller</button>
     </div>  
@@ -18,27 +22,52 @@ import JQuery from 'jquery'
 import axios from 'axios'
 
 export default {
+  head:{
+    meta:[
+      {
+            hid:'og:site_name',
+            name: 'og:site_name',
+            content:'maximum-movies.com'
+          },
+      {
+            hid:'og:url',
+            name: 'og:url',
+            content:'https://maximum-movies.com'
+          },
+      {
+            hid:'og:title',
+            name: 'og:title',
+            content:'Генератор случайных фильмов по категориям.'
+          },
+      {
+            hid:'og:description',
+            name: 'og:description',
+            content:'Генератор случайных фильмов. Выбор фильма по категориям.'
+          },
+      {
+            hid:'og:image',
+            name: 'og:image',
+            content:''
+          }
+    ]
+  },
   components: {
     
   },
   async asyncData({ $axios }){
-      var category = 'comedy'
-      //var content =  await $axios.$get('https://maximum-movies.com/php-films-res?'+category);
+      // var category1 = 'comedy'
+      // var content =  await $axios.$get('https://maximum-movies.com/php-films-res?'+category1);
       
      // return{content}
-     var shit = [] //в async дата создаем обычную переменную
-     return{shit}//делаем ретёрн и к ней можно обращаться через this в методах
+     var category = [] //в async дата создаем обычную переменную
+     return{category}//делаем ретёрн и к ней можно обращаться через this в методах
     },
     async mounted(){
      // await this.Film_name()
     },
     methods:{
-     Film_name(){
-        //console.log(this.content.name)
-        localStorage.setItem('titleFilm',this.content.name)
-      },
       async category_go(category){
-        console.log(this.shit)// здесь выведет пустую
+        console.log(this.category)// здесь выведет пустую
        var category_response = []
         var req = await $.ajax({
                 url:'https://maximum-movies.com/php-films-res',
@@ -49,13 +78,17 @@ export default {
                   category_response.push(JSON.parse(data))
                 }
             })
-        this.shit = category_response
-        console.log(this.shit) // а здесь уже с объектом в массиве
+       this.category = category_response
+       await localStorage.setItem('titleFilm',this.category[0].name)//для og разметки
+        console.log(this.category) // а здесь уже с объектом в массиве
       },
     }
 }
 </script>
 
-<style>
-
+<style scoped>
+  img{
+    max-width:100%;
+  }
+  
 </style>

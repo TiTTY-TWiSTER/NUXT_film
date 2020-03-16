@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<social-sharing url="/" :title="'Мой фильм на сегодня' + ':' + ' ' + name_film" inline-template>
+		<social-sharing :title="'Мой фильм на сегодня' + ':' + ' ' + name_film" inline-template>
 		  <div id="social-share" class="mt-2 text-center">
 		    <network network="facebook">
 		      <img src="~/assets/facebook-icon.png" alt="facebook-icon" class='icon-soc'>
@@ -56,8 +56,10 @@
 		position:absolute;
 		bottom:0;
 		right:0;
-		left:0;		
+		left:0;
+		width:100%;	
 		background-color:rgba(15,15,15,0.2);
+		overflow: hidden;
 	}
 	.icon-soc{
 		width: 50px;
@@ -66,6 +68,7 @@
 		transition:all 0.7s;
 	}
 	.icon-soc:hover{
+		overflow-y:hidden;
 		transform:scale(1.1);
 	}
 	@media (min-width:200px) and (max-width:650px){
