@@ -2,16 +2,15 @@
   <div id="main_page">
     <div class="container mt-2">
       <!-- <h1>{{content.name}}</h1> -->
-      <div v-if='category.length > 0' id="response-category-block">
-        <h2 >{{category[0].name}}</h2>
-        <img :src="'https://maximum-movies.com/'+category[0].img_url" alt="">
-      </div>      
-
+            
+      <Nav/>
       <!-- <button class="btn btn-primary" @click='Film_name'>comedy</button> -->
-      <button class="btn btn-primary" @click='category_go("comedy")'>comedy</button>
-      <button class="btn btn-primary" @click='category_go("drama")'>drama</button>
-      <button class="btn btn-primary" @click='category_go("thriller")'>thriller</button>
-    </div>  
+      <!-- <nav>
+        <button class="btn btn-primary" @click='category_go("comedy")'>comedy</button>
+        <button class="btn btn-primary" @click='category_go("drama")'>drama</button>
+        <button class="btn btn-primary" @click='category_go("thriller")'>thriller</button>
+      </nav> -->
+    </div>     
   </div>
 </template>
 
@@ -21,6 +20,7 @@ import JQuery from 'jquery'
 
 import axios from 'axios'
 
+import Nav from '~/components/nav.vue'
 export default {
   head:{
     meta:[
@@ -52,7 +52,7 @@ export default {
     ]
   },
   components: {
-    
+    Nav,
   },
   async asyncData({ $axios }){
       // var category1 = 'comedy'
@@ -66,29 +66,11 @@ export default {
      // await this.Film_name()
     },
     methods:{
-      async category_go(category){
-        console.log(this.category)// здесь выведет пустую
-       var category_response = []
-        var req = await $.ajax({
-                url:'https://maximum-movies.com/php-films-res',
-                type:"POST",
-                cache: false,
-                data:{'category':category},
-                success:function(data){
-                  category_response.push(JSON.parse(data))
-                }
-            })
-       this.category = category_response
-       await localStorage.setItem('titleFilm',this.category[0].name)//для og разметки
-        console.log(this.category) // а здесь уже с объектом в массиве
-      },
+      
     }
 }
 </script>
 
 <style scoped>
-  img{
-    max-width:100%;
-  }
-  
+
 </style>
