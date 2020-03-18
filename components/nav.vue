@@ -12,10 +12,14 @@
 		        <h2>{{category[0].name}}</h2>
 		        <div style="position:relative;">
 		        	<img :src="'https://maximum-movies.com/'+category[0].img_url" alt="" id='film-img'>
-		        	<img v-if='category[0].url != ""' src="~/assets/play.png" alt="смотреть онлайн" id="film-img-after">
+		        	<img v-if='category[0].url != ""' src="~/assets/play.png" alt="смотреть онлайн" id="film-img-after" @click='play'>
+
 		        </div>	        
-		        <p class="pt-3">{{category[0].description}}</p>
-		    </div>		    
+		        <p class="pt-3">{{category[0].description}}</p>	
+		        <div v-show="video[0]">
+		        	<video  :src="'https://maximum-movies.com'+video[1]" controls ></video>	
+		        </div>		        	        
+		    </div>		        
 		</transition>
 	</div>
 </template>
@@ -41,7 +45,8 @@ import JQuery from 'jquery'
 			        img2:require('~/assets/thriller-text2.png')
 			       }
 			       ],
-			    category:''
+			    category:'',
+			    video:false
 			}
 		},
 		methods:{
@@ -60,6 +65,14 @@ import JQuery from 'jquery'
        this.category = category_response
        await localStorage.setItem('titleFilm',this.category[0].name)//для og разметки
         console.log(this.category) // а здесь уже с объектом в массиве
+      },
+      async play(){
+      	if(this.category[0].url !=''){
+      		this.video = []
+      		this.video.push(true)
+      		this.video.push(this.category[0].url)
+      	}
+      	console.log(this.video)
       },
 
 	      imgOver(item,img){

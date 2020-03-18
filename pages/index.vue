@@ -60,13 +60,13 @@ export default {
       
      // return{content}
      var category = [] //в async дата создаем обычную переменную
+     
      return{category}//делаем ретёрн и к ней можно обращаться через this в методах
     },
     async mounted(){
      // await this.Film_name()
     },
     methods:{
-      
     }
 }
 </script>
