@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<button @click='al'>route</button>
-		<nav>
+		<!-- <button @click='al'>route</button> -->
+		<nav @mouseover='nav=true' :class="{'navHover':nav}" @mouseleave='nav=false'>
 	        <img src="~/assets/comedy-text.png" alt="фильмы из категории комедия" id="comedy-category"  @click='category_go("comedy");RoutParm()' @mouseover="imgOver('#comedy-category',category_img[0].img2)" @mouseleave='imgLeave("#comedy-category",category_img[0].img1)'>
 
 	        <img src="~/assets/drama-text.png" alt="фильмы из категории драма, мелодрама" id="drama-category" @click='category_go("drama");RoutParm()' @mouseover="imgOver('#drama-category',category_img[1].img2)" @mouseleave='imgLeave("#drama-category",category_img[1].img1)'>
@@ -32,6 +32,7 @@ import JQuery from 'jquery'
 	export default{
 	data(){
 			return{
+				nav:false,
 				category_img:[
 			       {
 			        title:'comedy',
@@ -50,11 +51,6 @@ import JQuery from 'jquery'
 			    category:'',
 			    video:false
 			}
-		},
-		mounted(){
-			this.$router.push({
-				params:{search:false}
-			})
 		},
 		methods:{
 			al(){
@@ -127,6 +123,9 @@ import JQuery from 'jquery'
 	    max-width:100%;
 	    border-radius:8px;
 	  }
+	  p{
+	  	font-size: 1rem;
+	  }
 	  video{
 	  	height: 85vh;
 	  	width:85%;
@@ -147,15 +146,18 @@ import JQuery from 'jquery'
 	  nav img{
 	  	cursor:pointer;
 	  }
-	  nav:hover{
+	  .navHover{
 	    left:5%;
+	  }
+	  .navLeave{
+	  	left:-5%;
 	  }
 	  #response-category-block{
 	  	margin-left:40%;
 	  }
 	  #film-img{
-	  	transform: scale(1) perspective(1040px) rotateY(-17deg) rotateX(1deg);
-    	box-shadow: rgba(0, 0, 0, 0.8) 10px 0.52rem 0.6rem;
+	  	/*transform: scale(1) perspective(1040px) rotateY(-17deg) rotateX(1deg); */
+    	box-shadow: rgba(0, 0, 0, 0.8) 10px 0.52rem 0.7rem;
 	  }
 	  #film-img-after{
 		cursor:pointer;
@@ -168,5 +170,25 @@ import JQuery from 'jquery'
 }
 #film-img-after:hover{
 	opacity:1;
+}
+
+@media (min-width:200px) and (max-width:850px){
+	h2{
+		font-size:1.3rem;
+	}
+	p{
+		font-size:0.8rem;
+	}
+	nav{
+		gap:50px;
+		width:55%;
+		top: 50%;
+	    left: 50%;
+	    transform: translate(-50%,-50%);
+	}
+	#response-category-block{		
+		margin:unset;
+		margin-top: 2.5rem!important;
+	}
 }
 </style>

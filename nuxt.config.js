@@ -1,9 +1,14 @@
 
 module.exports = {
+    serverMiddleware: [
+    // Will register redirect-ssl npm package
+    'redirect-ssl'
+  ],
   mode: 'universal',
   /*
   ** Headers of the page
   */
+
   head: {
     title:'Случайный фильм по категориям',
     meta: [
@@ -29,6 +34,7 @@ module.exports = {
   */
   plugins: [
     "@/plugins/vue-social-sharing.js",
+    "@/plugins/vue-scroll.js"
   ],
   /*
   ** Nuxt.js dev-modules
@@ -45,7 +51,15 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     '@neneos/nuxt-animate.css',
+    '@nuxtjs/sitemap',
   ],
+  
+
+  sitemap: {
+    hostname: 'https://films-generator.ru',
+    gzip: true,
+  },
+
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

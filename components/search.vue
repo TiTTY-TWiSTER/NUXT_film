@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<p @click='shit'>shit</p>
+		<!-- <p @click='shit'>shit</p> -->
 		<img src="~/assets/search.png" alt="иконка поиска" title="найти фильм" id="searchFilm" @click='focuz()'>
 		
 		<input v-show='search' type="text" name='nameFilm' class='animated bounceInRight form-control' id='nameFi' v-on:keyup.enter='nameForSearch();RoutParm()' placeholder="найти фильм" v-model="value">
 
 		
-		<div v-if='video[0] == true && this.$route.query.search == true'>
+		<div v-show='video[0] == true && this.$route.query.search == true'>
 			<video class="animated fadeIn d-block mx-auto " :src="video[1]" controls style='max-height: 85vh;' :key='video[3]'></video>
 		</div>
 	</div>
@@ -46,7 +46,7 @@ import JQuery from 'jquery'
 				if(Vi !=''){ //если инпут не пустой, вызываем функцию запроса которая ниже
 					this.nameForSearch()
 					this.RoutParm()
-					this.value = ''
+					this.value = ''					
 				}
 				this.search = !this.search				
 			},
@@ -73,8 +73,7 @@ import JQuery from 'jquery'
 			          		boo.push(true)
 			          		boo.push('https://maximum-movies.com/' + JSON.parse(data).url)
 			          		boo.push(JSON.parse(data).name)
-			          		boo.push(JSON.parse(data).id)		         		         		
-			          				          		
+			          		boo.push(JSON.parse(data).id)			          				          		
 			          	}
 			          }
 		        })	
@@ -82,7 +81,11 @@ import JQuery from 'jquery'
 				this.video = boo //после запроса в переменной boo лежат данные. Кладем в переменную vue и обращемся в тегах к ней
 				// async await впринципе можно не писать, но он вернет красивый результат выполнения 
 				console.log(this.video)
-				await localStorage.setItem('titleFilm',boo[2])		
+				await localStorage.setItem('titleFilm',boo[2])
+				
+				//скролл до видео
+				var VueScrollTo = require('vue-scrollto');
+				await VueScrollTo.scrollTo('video')		
 				}				
 			},
 		}

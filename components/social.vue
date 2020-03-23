@@ -28,6 +28,9 @@
 	</div>
 </template>
 <script>
+import JQuery from 'jquery'
+ 	let $ = JQuery
+
 	export default{
 		  head: {
 		    script: [
@@ -42,7 +45,7 @@
 		mounted(){
 			setInterval(()=>{
 				this.Set()
-			},1000)
+			},1000);
 		},
 		methods:{
 			Set(){ //функция для добавление названия фильма в ссылку share.
@@ -71,9 +74,18 @@
 		overflow-y:hidden;
 		transform:scale(1.1);
 	}
+	@media screen and (orientation:landscape) {
+    /* стили для горизонтальной */
+    #social-share{
+		position:fixed;
+    }
+}
 	@media (min-width:200px) and (max-width:650px){
 		.icon-soc{
 			width:40px;
 		}
+		#social-share{
+			position:fixed;
+	    }
 	}
 </style>
