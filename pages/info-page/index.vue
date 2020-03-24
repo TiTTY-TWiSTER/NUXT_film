@@ -7,7 +7,7 @@
 			<div class="container mt-4">
 				<h2>Комедия.</h2>
 				<ul>
-					<li v-for='item in res_all_film' v-show='item.category == "comedy"'>{{item.name}}</li>
+					<li v-for='item in res_all_film' v-show='item.category == "comedy"' @click.prevent='openVideo(item.name,item.url)'>{{item.name}}</li>
 				</ul>
 			</div>
 		</section>
@@ -79,6 +79,12 @@
 	            return data;
 	        })
 	        return{res_all_film}		
+	},
+	methods:{
+		async openVideo(name,url){
+			await localStorage.setItem('url',url)
+			this.$router.push('/info-page/' + name)
+		}
 	}
 }
 </script>

@@ -54,7 +54,7 @@ import JQuery from 'jquery'
 		},
 		methods:{
 			al(){
-				console.log(this.$route)
+				//console.log(this.$route)
 			},
 			RoutParm(){
 				this.$route.query.search = false

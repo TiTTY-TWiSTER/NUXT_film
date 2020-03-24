@@ -52,6 +52,17 @@ module.exports = {
     '@nuxtjs/pwa',
     '@neneos/nuxt-animate.css',
     '@nuxtjs/sitemap',
+    [
+      '@nuxtjs/yandex-metrika',
+      {
+        id: '61239253',
+        webvisor: true,
+        clickmap:true,
+        // useCDN:false,
+        // trackLinks:true,
+        // accurateTrackBounce:true,
+      }
+    ],
   ],
   
 

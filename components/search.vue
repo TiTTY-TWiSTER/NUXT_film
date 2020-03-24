@@ -3,7 +3,7 @@
 		<!-- <p @click='shit'>shit</p> -->
 		<img src="~/assets/search.png" alt="иконка поиска" title="найти фильм" id="searchFilm" @click='focuz()'>
 		
-		<input v-show='search' type="text" name='nameFilm' class='animated bounceInRight form-control' id='nameFi' v-on:keyup.enter='nameForSearch();RoutParm()' placeholder="найти фильм" v-model="value">
+		<input type="text" name='nameFilm' v-show='search'  class='animated bounceInRight form-control' id='nameFi' v-on:keyup.enter='nameForSearch();RoutParm()' placeholder="найти фильм" v-model="value" autofocus>
 
 		
 		<div v-show='video[0] == true && this.$route.query.search == true'>
@@ -82,7 +82,7 @@ import JQuery from 'jquery'
 				// async await впринципе можно не писать, но он вернет красивый результат выполнения 
 				console.log(this.video)
 				await localStorage.setItem('titleFilm',boo[2])
-				
+
 				//скролл до видео
 				var VueScrollTo = require('vue-scrollto');
 				await VueScrollTo.scrollTo('video')		

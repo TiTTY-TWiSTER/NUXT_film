@@ -32,9 +32,9 @@ import Info from '~/components/info.vue'
       this.$router.push({
         params:{search:false}
       });
-      this.$router.push({
-        query:{search:false}
-      });
+      // this.$router.push({
+      //   query:{search:false}
+      // });
     },
   }
 </script>
