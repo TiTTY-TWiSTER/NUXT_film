@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<router-link to='/info-page'>
+		<nuxt-link to='/info-page'>
 			<img src="~/assets/info.png" alt="info icon" title='список фильмов' id='info_site'>
-		</router-link>
+		</nuxt-link>
 	</div>
 </template>
 <script>

@@ -1,9 +1,10 @@
 <template>
 	<section>
-		<div class="container">
+		<div class="container animated fadeIn">
 			<h1>{{$route.params.video}}</h1>
 			<!-- <p>{{$route.query}}</p> -->
-			<video :src="'https://maximum-movies.com' + video" controls></video>
+			<video :src="'https://maximum-movies.com' + req.url" controls></video>
+			<p>{{req.description}}</p>
 		</div>
 	</section>
 </template>
@@ -11,21 +12,14 @@
 import JQuery from 'jquery'
   let $ = JQuery
 	export default{
-		validate({params}){
-			return params.video
-			//console.log(this.$route)
-		},
-		async asyncData(){
-			var name = $route.params.video //
+		async asyncData({params}){
+			var name = params.video //получили параметры переданные в корневой странице в папке
 
-			var FormData = require('form-data');
+			var FormData = require('form-data'); //собрали данные для отправки через FormData
 		    var filmName = new FormData();
 		    filmName.append('nameFilm', name);
-
-			var video = localStorage.getItem('url')
-
 			
-			var req = await fetch('https://maximum-movies.com/searchfilm',{
+			var req = await fetch('https://maximum-movies.com/search-for-async',{ //делаем POST запрос
 	          method: 'post',
 	          body:filmName
 		       }).then((res) => {
@@ -35,9 +29,18 @@ import JQuery from 'jquery'
 		          console.log(data)
 		            return data;
 		        })
-			return{video,req}
+			return{req}
 
 		}
 	}
 	
 </script>
+<style scoped>
+	.container{
+		width:90vw;
+		height:90vh;
+	}
+	video{
+		max-width:100%;
+	}
+</style>

@@ -7,7 +7,7 @@
 
 		
 		<div v-show='video[0] == true && this.$route.query.search == true'>
-			<video class="animated fadeIn d-block mx-auto " :src="video[1]" controls style='max-height: 85vh;' :key='video[3]'></video>
+			<video class="animated fadeIn d-block mx-auto res-vid" :src="video[1]" controls style='max-height: 85vh;' :key='video[3]' :id="video[3]"></video>
 		</div>
 	</div>
 </template>
@@ -85,7 +85,7 @@ import JQuery from 'jquery'
 
 				//скролл до видео
 				var VueScrollTo = require('vue-scrollto');
-				await VueScrollTo.scrollTo('video')		
+				VueScrollTo.scrollTo('.res-vid')		
 				}				
 			},
 		}

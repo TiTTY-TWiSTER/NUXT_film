@@ -1,13 +1,21 @@
 <template>
 	<div>
-		<div class="container">
+		<div class="container pt-5">
 			<h1>Список доступных фильмов:</h1>
 		</div>
 		<section>
 			<div class="container mt-4">
+				<h2>Последние добавления</h2>
+				<ul>
+					<li v-for='item in res_all_film' v-show='item.date >= "202003" ' @click.prevent='openVideo(item.name)'>{{item.name}}</li>
+				</ul>
+			</div>
+		</section>
+		<section>
+			<div class="container mt-4">
 				<h2>Комедия.</h2>
 				<ul>
-					<li v-for='item in res_all_film' v-show='item.category == "comedy"' @click.prevent='openVideo(item.name,item.url)'>{{item.name}}</li>
+					<li v-for='item in res_all_film' v-show='item.category == "comedy"' @click.prevent='openVideo(item.name)'>{{item.name}}</li>
 				</ul>
 			</div>
 		</section>
@@ -16,7 +24,7 @@
 			<div class="container mt-2">
 				<h2>Драмма.</h2>
 				<ul>
-					<li v-for='item in res_all_film' v-show='item.category == "drama"'>{{item.name}}</li>
+					<li v-for='item in res_all_film' v-show='item.category == "drama"' @click.prevent='openVideo(item.name)'>{{item.name}}</li>
 				</ul>
 			</div>
 		</section>
@@ -25,7 +33,7 @@
 			<div class="container mt-2">
 				<h2>Триллер.</h2>
 				<ul>
-					<li v-for='item in res_all_film' v-show='item.category == "thriller"'>{{item.name}}</li>
+					<li active-class='active' v-for='item in res_all_film' v-show='item.category == "thriller"' @click.prevent='openVideo(item.name)'>{{item.name}}</li>
 				</ul>
 			</div>
 		</section>
@@ -81,10 +89,23 @@
 	        return{res_all_film}		
 	},
 	methods:{
-		async openVideo(name,url){
-			await localStorage.setItem('url',url)
+		openVideo(name){			
 			this.$router.push('/info-page/' + name)
-		}
+		},
 	}
 }
 </script>
+<style scoped>
+	section ul{
+		display:inline-block;
+		color:rgba(15,15,15,0.7);
+	}
+	section li{
+		cursor:pointer;
+		max-width: max-content;
+		color:rgba(15,15,15,0.7);
+	}
+	section li:hover{
+		color:rgba(15,15,15,1);
+	}
+</style>
