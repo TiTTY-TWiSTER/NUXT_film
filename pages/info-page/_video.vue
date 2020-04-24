@@ -31,6 +31,14 @@ import JQuery from 'jquery'
 		        })
 			return{req}
 
+		},
+		head(){
+			return{
+				title: this.req.name + " Смотреть онлайн без рекламы | films-generator",
+				meta:[
+					{ hid: 'description', name: 'description', content:this.req.description + ' Смотри онлайн на films-generator' }
+				]
+			}			
 		}
 	}
 	

@@ -10,11 +10,11 @@ module.exports = {
   */
 
   head: {
-    title:'Случайный фильм по категориям',
+    title:'Случайный фильм по категориям | films-generator',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Случайный фильм на сегодня - генератор. Выбирай по категориям или запусти свой рандом. Только лучшее из мира синематографа.' }
+      { hid: 'description', name: 'description', content: 'Случайный фильм на сегодня - генератор. Выбирай по категориям. Только лучшее из мира синематографа.' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }

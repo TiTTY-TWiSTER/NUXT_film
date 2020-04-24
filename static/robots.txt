@@ -1,4 +1,4 @@
 User-agent: *
-
+Allow: *
 Host: https://films-generator.ru/
 Sitemap: https://films-generator.ru/sitemap.xml
