@@ -21,7 +21,7 @@
     "cross-env": "^5.2.0",
     "express": "^4.16.4",
     "form-data": "^3.0.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "nuxt": "^2.0.0",
     "nuxt-lazy-load": "^1.2.4",
     "redirect-ssl": "^1.4.1",
