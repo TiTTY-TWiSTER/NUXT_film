@@ -10,7 +10,7 @@ module.exports = {
   */
 
   head: {
-    title:'Случайный фильм по категориям | films-generator',
+    title:'Выбрать Случайный фильм по категориям | films-generator',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -52,6 +52,7 @@ module.exports = {
     '@nuxtjs/pwa',
     '@neneos/nuxt-animate.css',
     '@nuxtjs/sitemap',
+    'nuxt-lazy-load',
     [
       '@nuxtjs/yandex-metrika',
       {

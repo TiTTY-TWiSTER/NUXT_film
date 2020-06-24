@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<nuxt-link to='/info-page'>
+		<nuxt-link to='/movies-page'>
 			<img src="~/assets/info.png" alt="info icon" title='список фильмов' id='info_site'>
 		</nuxt-link>
 	</div>

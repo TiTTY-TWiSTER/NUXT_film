@@ -8,21 +8,23 @@
 
 	        <img src="~/assets/thriller-text.png" alt="фильмы из категории триллер" id="thriller-category" @click='category_go("thriller");RoutParm()' @mouseover="imgOver('#thriller-category',category_img[2].img2)" @mouseleave='imgLeave("#thriller-category",category_img[2].img1)'>
 	    </nav>
-	    	<div v-if='category.length > 0 && this.$route.params.search == false' id="response-category-block">
 
-		        <div id="label-film-category" class="animated fadeIn" v-if="video==false" :key="category[0].id">
-		        	<h2>{{category[0].name}}</h2>
-		        	<div style="position:relative;">
-			        	<img :src="'https://maximum-movies.com/'+category[0].img_url" alt="" id='film-img'>
-			        	<img v-if='category[0].url != ""' src="~/assets/play.png" alt="смотреть онлайн" id="film-img-after" @click='play'>
-		       		</div>
-		       		<p class="pt-3">{{category[0].description}}</p>	
-		        </div>      
-		        
-		        <div v-show="video[0]" id='video_category' class="animated fadeIn" :key="category[0].id">
-		        	<video  :src="'https://maximum-movies.com'+video[1]" controls ></video>	
-		        </div>		        	        
-		    </div>
+    	<div v-if='category != "" && this.$route.params.search == false' id="response-category-block">
+
+	        <div id="label-film-category" class="animated fadeIn" v-if="video==false" :key="category.id">
+	        	<h2>{{category.name}}</h2>
+	        	<div style="position:relative;">
+		        	<img :src="'https://maximum-movies.com/'+category.img_url" alt="" id='film-img'>
+		        	<img v-if='category.url != ""' src="~/assets/play.png" alt="смотреть онлайн" id="film-img-after" @click='play'>
+	       		</div>
+	       		<p class="pt-3">{{category.description}}</p>	
+	        </div>      
+	        
+	        <div v-show="video[0]" id='video_category' class="animated fadeIn" :key="category.id">
+	        	<video  :src="'https://maximum-movies.com'+video[1]" controls ></video>	
+	        </div>		        	        
+	    </div>
+
 	</div>
 </template>
 <script>
@@ -30,28 +32,28 @@ import JQuery from 'jquery'
  	let $ = JQuery
 
 	export default{
-	data(){
-			return{
-				nav:false,
-				category_img:[
-			       {
-			        title:'comedy',
-			        img1:require('~/assets/comedy-text.png'),
-			        img2:require('~/assets/comedy-text2.png')
-			       },{
-			        title:'drama',
-			        img1:require('~/assets/drama-text.png'),
-			        img2:require('~/assets/drama-text2.png')
-			       },{
-			        title:'thriller',
-			        img1:require('~/assets/thriller-text.png'),
-			        img2:require('~/assets/thriller-text2.png')
-			       }
-			       ],
-			    category:'',
-			    video:false
-			}
-		},
+		data(){
+				return{
+					nav:false,
+					category_img:[
+				       {
+				        title:'comedy',
+				        img1:require('~/assets/comedy-text.png'),
+				        img2:require('~/assets/comedy-text2.png')
+				       },{
+				        title:'drama',
+				        img1:require('~/assets/drama-text.png'),
+				        img2:require('~/assets/drama-text2.png')
+				       },{
+				        title:'thriller',
+				        img1:require('~/assets/thriller-text.png'),
+				        img2:require('~/assets/thriller-text2.png')
+				       }
+				       ],
+				    category:'',
+				    video:false
+				}
+			},
 		methods:{
 			al(){
 				//console.log(this.$route)
@@ -66,51 +68,46 @@ import JQuery from 'jquery'
 			},
 		async category_go(category){			
 			this.video = false
-        console.log(this.category)// здесь выведет пустую
-       var category_response = []
-        var req = await $.ajax({
-                url:'https://maximum-movies.com/php-films-res',
-                type:"POST",
-                cache: false,
-                data:{'category':category},
-                success:function(data){
-                  category_response.push(JSON.parse(data))
-                }
-            })
-       this.category = category_response
-       await localStorage.setItem('titleFilm',this.category[0].name)//для og разметки
-        console.log(this.category) // а здесь уже с объектом в массиве
+
+       		await this.$store.dispatch('category/fetchPost',category)
+
+       		localStorage.setItem('titleFilm',this.$store.state.category.data.name)//для og разметки
+       		localStorage.setItem('imgOG',this.$store.state.category.data.img_url)//для og разметки
+
+        	console.log(this.category) // а здесь уже с объектом
+        	console.log(this.$store.state.category.data.name)
+        	this.category = this.$store.state.category.data
       },
       play(){
-      	if(this.category[0].url !=''){ //если путь к видео в БД есть
+      	if(this.category.url !=''){ //если путь к видео в БД есть
 
       		this.video = []
       		this.video.push(true)
-      		this.video.push(this.category[0].url)
+      		this.video.push(this.category.url)
       	}
       	//$('#response-category-block').css('display','none')
       	console.log(this.video)
       },
 
-	      imgOver(item,img){
-	        $(item).attr({
-	          src:img
-	        })
-	        $(item).css({
-	          "transform":"scale(1.1)"
-	        })
-	      },
+      imgOver(item,img){
+        $(item).attr({
+          src:img
+        })
+        $(item).css({
+          "transform":"scale(1.1)"
+        })
+      },
 
-	      imgLeave(item,img){
-	        $(item).attr({
-	          src:img
-	        })
-	        $(item).css({
-	          "transform":"scale(1.0)"
-	        })
-	      },
-		}
+      imgLeave(item,img){
+        $(item).attr({
+          src:img
+        })
+        $(item).css({
+          "transform":"scale(1.0)"
+        })
+      },
 	}
+};
 </script>
 <style scoped>
 .fade-enter-active, .fade-leave-active {

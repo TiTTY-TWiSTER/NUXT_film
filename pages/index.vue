@@ -14,17 +14,18 @@ import axios from 'axios'
 
 import Nav from '~/components/nav.vue'
 export default {
-  head:{
-    meta:[
+  head(){
+    return{
+      meta:[
       {
             hid:'og:site_name',
             name: 'og:site_name',
-            content:'maximum-movies.com'
+            content:'films-generator.ru'
           },
       {
             hid:'og:url',
             name: 'og:url',
-            content:'https://maximum-movies.com'
+            content:'https://films-generator.ru/'
           },
       {
             hid:'og:title',
@@ -39,41 +40,14 @@ export default {
       {
             hid:'og:image',
             name: 'og:image',
-            content:''
+            content:'https://maximum-movies.com/assets/build/randomFilm/forrest_gump.png'
           }
     ]
+    }
   },
   components: {
     Nav,
   },
-  async asyncData({ $axios }){
-       var category1 = 'comedy'
-      // var content =  await $axios.$get('https://maximum-movies.com/php-films-res?'+category1);
-      
-     // return{content}
-     var allFilms = [] //в async дата создаем обычную переменную
-
-     var FormData = require('form-data');
-     var category = new FormData();
-     category.append('category', 'comedy');
-
-       //   var resz = await fetch('https://maximum-movies.com/all-films',{
-       //    method: 'get',
-       //    //body:category
-       // }).then((res) => {
-       //      return res.json();
-       //  })
-       //  .then((data) => {
-       //    console.log(data)
-       //    allFilms.push(data)
-       //      //console.log(data)
-       //      return data;
-       //  })
-       //  return{resz}
-     //return{allFilms}//делаем ретёрн и к ней можно обращаться через this в методах
-    },
-    methods:{
-    }
 }
 </script>
 

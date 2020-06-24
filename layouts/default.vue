@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-right">
-      <button @click='$router.push("/")' id="main_btn">Главная</button>
+      <button v-if='$route.path !="/" ' @click='$router.push("/")' id="main_btn">Главная</button>
     </div>
     
     <nuxt />
@@ -19,8 +19,8 @@ import Social from '~/components/social.vue'
 import Info from '~/components/info.vue'
   export default{
     head:{
-      script:[
-        {src:'<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">'}
+      link:[
+        { rel:"stylesheet", href:'https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'}
       ]
     },
     components:{

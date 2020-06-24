@@ -24,10 +24,6 @@ import JQuery from 'jquery'
 			}
 		},
 		mounted(){
-			// //if(location.reload()){
-			// 	this.$route.params = {}
-			// 	this.$route.query = {}
-			// }
 		},
 		methods:{
 			shit(){
@@ -54,38 +50,12 @@ import JQuery from 'jquery'
 			 	
 				var Vinput = $('#nameFi').val().trim() //название из инпута
 
-				var boo = [] //создаем до запроса массив в который будем пушить данные ответа
-
 				if(Vinput !=""){
-					this.folk = await $.ajax({
-			          url:'https://maximum-movies.com/searchfilm',
-			          type:"POST",
-			          cache: false,
-			          data:{'nameFilm':Vinput},
-			          success:function(data){
-			          	//console.log(JSON.parse(data).url)
-
-			          	if(JSON.parse(data) == null){
-			          		boo.push(false)
-			          		alert('Не найдено')
-			          	}
-			          	else{
-			          		boo.push(true)
-			          		boo.push('https://maximum-movies.com/' + JSON.parse(data).url)
-			          		boo.push(JSON.parse(data).name)
-			          		boo.push(JSON.parse(data).id)			          				          		
-			          	}
-			          }
-		        })	
-		        //console.log(boo)		        	
-				this.video = boo //после запроса в переменной boo лежат данные. Кладем в переменную vue и обращемся в тегах к ней
-				// async await впринципе можно не писать, но он вернет красивый результат выполнения 
-				console.log(this.video)
-				await localStorage.setItem('titleFilm',boo[2])
-
-				//скролл до видео
-				var VueScrollTo = require('vue-scrollto');
-				VueScrollTo.scrollTo('.res-vid')		
+					await this.$store.dispatch('search/searchFilms',Vinput)//передали название искомого фильма
+					
+					if(this.$store.state.search.search_films.length > 0){
+						this.$router.push('/search_page')
+					}	
 				}				
 			},
 		}
