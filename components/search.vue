@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<!-- <p @click='shit'>shit</p> -->
 		<img src="~/assets/search.png" alt="иконка поиска" title="найти фильм" id="searchFilm" @click='focuz()'>
 		
 		<input type="text" name='nameFilm' v-show='search'  class='animated bounceInRight form-control' id='nameFi' v-on:keyup.enter='nameForSearch();RoutParm()' placeholder="найти фильм" v-model="value" autofocus>
@@ -15,7 +14,7 @@
 import JQuery from 'jquery'
  	let $ = JQuery
 
-	export default{
+	export default{		
 		data(){
 			return{
 				search:false,
@@ -26,22 +25,11 @@ import JQuery from 'jquery'
 		mounted(){
 		},
 		methods:{
-			shit(){
-				console.log(this.video[1])
-			},
-			RoutParm(){
-				this.$route.params.search = false
-			 	this.$router.push({ //пушим query данные. Для последующего обращения в других компонентах
-			 		query: { search: true }
-			 	})
-			 	//this.$route.query.search = true
-			},
 			focuz(){
 				var Vi = this.value
 				//console.log(Vi)
 				if(Vi !=''){ //если инпут не пустой, вызываем функцию запроса которая ниже
 					this.nameForSearch()
-					this.RoutParm()
 					this.value = ''					
 				}
 				this.search = !this.search				
@@ -55,7 +43,9 @@ import JQuery from 'jquery'
 					
 					if(this.$store.state.search.search_films.length > 0){
 						this.$router.push('/search_page')
-					}	
+					}else{
+						alert('SORRY. Не найдено')
+					}
 				}				
 			},
 		}

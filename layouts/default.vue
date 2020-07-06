@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-right">
-      <button v-if='$route.path !="/" ' @click='$router.push("/")' id="main_btn">Главная</button>
+      <button v-show='$route.path !="/" ' @click='$router.push("/")' id="main_btn">Главная</button>
     </div>
     
     <nuxt />
@@ -28,14 +28,14 @@ import Info from '~/components/info.vue'
       Social,
       Info
     },    
-    mounted(){
-      this.$router.push({
-        params:{search:false}
-      });
-      // this.$router.push({
-      //   query:{search:false}
-      // });
-    },
+    // mounted(){
+    //   this.$router.push({
+    //     params:{search:false}
+    //   });
+    //   // this.$router.push({
+    //   //   query:{search:false}
+    //   // });
+    // },
   }
 </script>
 <style>

@@ -7,7 +7,7 @@
 			<div class="container mt-4">
 				<h2>Последние добавления</h2>
 				<ul>
-					<li v-for='(item,index) in all_r_sort' v-if='index < 10' @click.prevent='openVideo(item.name)'>{{item.name}}</li>
+					<li v-for='(item,index) in trouble(all_r)' v-if='index < 10 && item' @click.prevent='openVideo(item.id)'>{{item.name}}</li>
 				</ul>
 			</div>
 		</section>
@@ -15,7 +15,7 @@
 			<div class="container mt-4">
 				<h2>Комедия.</h2>
 				<ul>
-					<li v-for='item in all_r' v-show='item.category == "comedy"' @click.prevent='openVideo(item.name)'>{{item.name}}</li>
+					<li v-for='item in all_r' v-show='item.category == "comedy"' @click.prevent='openVideo(item.id)'>{{item.name}}</li>
 				</ul>
 			</div>
 		</section>
@@ -24,7 +24,7 @@
 			<div class="container mt-2">
 				<h2>Драмма.</h2>
 				<ul>
-					<li v-for='item in all_r' v-show='item.category == "drama"' @click.prevent='openVideo(item.name)'>{{item.name}}</li>
+					<li v-for='item in all_r' v-show='item.category == "drama"' @click.prevent='openVideo(item.id)'>{{item.name}}</li>
 				</ul>
 			</div>
 		</section>
@@ -33,12 +33,12 @@
 			<div class="container mt-2">
 				<h2>Триллер.</h2>
 				<ul>
-					<li active-class='active' v-for='item in all_r' v-show='item.category == "thriller"' @click.prevent='openVideo(item.name)'>{{item.name}}</li>
+					<li active-class='active' v-for='item in all_r' v-show='item.category == "thriller"' @click.prevent='openVideo(item.id)'>{{item.name}}</li>
 				</ul>
 			</div>
 		</section>
 		<div class="container p-5" style="background:lightgrey;" id="store_films">
-			<div v-for='film in all_r_sort'>
+			<div v-for='film in trouble(all_r)'>
 				<img v-if='film.img_url.split("/").filter($options.filters.capitalize)[1] == "build"' :src="'https://maximum-movies.com' + film.img_url" :alt="film.name + 'смотреть онлайн'">
 				<img v-else src="~/assets/no_photo.jpg" alt="изображение временно отсутствует">
 				<p>{{film.description}}</p>
@@ -51,9 +51,10 @@ import JQuery from 'jquery'
  	let $ = JQuery
 
 	export default{		
-		async asyncData({store}){
-			await store.dispatch('all_films/fetchGet')
-			var all_r = await store.state.all_films.films.reverse()			
+		async asyncData({$axios}){
+			var all = await $axios.$get('https://films-generator.ru/php/search_for_async.php?id=')
+			
+			var all_r = all.reverse()			
 			return{all_r}
 		},
 		head(){
@@ -94,29 +95,44 @@ import JQuery from 'jquery'
 		},
 		mounted(){
 			//вырезаем дубли из массива объектов (по ключу name) полученных после асинхронного запроса
-			var arr2 = []
-			for(var i=0;i<this.all_r.length;i++){
-				arr2.push({
-					name:this.all_r[i].name,//этот ключ ВАЖЕН нам, т.к в нем есть дубли из-за разных категорий
-					url:this.all_r[i].url,//может пригодится
-					img_url:this.all_r[i].img_url,//может пригодится
-					description:this.all_r[i].description,//может пригодится
-				})
-			}
-			this.all_r_sort = Array.from(new Set(arr2.map(JSON.stringify))).map(JSON.parse);//вырезание дублей из массива ДЛЯ ОБЪЕКТОВ
-			//END//
+			// var arr2 = []
+			// for(var i=0;i<this.all_r.length;i++){
+			// 	arr2.push({
+			// 		name:this.all_r[i].name,//этот ключ ВАЖЕН нам, т.к в нем есть дубли из-за разных категорий
+			// 		url:this.all_r[i].url,//может пригодится
+			// 		img_url:this.all_r[i].img_url,//может пригодится
+			// 		description:this.all_r[i].description,//может пригодится
+			// 		id:this.all_r[i].id,
+			// 	})
+			// }
+			// this.all_r_sort = Array.from(new Set(arr2.map(JSON.stringify))).map(JSON.parse);//вырезание дублей из массива ДЛЯ ОБЪЕКТОВ
+			// //END//
+			
 		},
 		filters:{
 			capitalize:function(item){
 				if(item!= " "){
 					return item
 				}
-			}
+			},
 		},
 		methods:{
-			openVideo(name){			
-				this.$router.push('/movies-page/' + name)
+			openVideo(id){			
+				this.$router.push('/movies-page/' + id)
+				//this.$router.push({path:'/movies-page/',params: { video: id },query:{id:id}})
 			},
+			trouble(data){//вырезание дублей по названию, т.к. уникальный id нам нужен
+				var item2 = this.all_r //берем два одних и тех же массива
+				for(var i=0;i<data.length;i++){//перебираем из разных переменных для того что бы сравнить друг с другом
+					for(var q=0;q<item2.length;q++){
+						if(data[i].name == item2[q].name && data[i].id != item2[q].id){//если названия объекта одинаковые а id разные
+							//удаляем такой элемент из переданного аргументом массива
+							data.splice(i,1)						
+						}
+					}
+				}
+				return data
+			}
 		}
 };
 </script>

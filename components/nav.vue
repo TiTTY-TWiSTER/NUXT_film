@@ -2,20 +2,20 @@
 	<div>
 		<!-- <button @click='al'>route</button> -->
 		<nav @mouseover='nav=true' :class="{'navHover':nav}" @mouseleave='nav=false'>
-	        <img src="~/assets/comedy-text.png" alt="фильмы из категории комедия" id="comedy-category"  @click='category_go("comedy");RoutParm()' @mouseover="imgOver('#comedy-category',category_img[0].img2)" @mouseleave='imgLeave("#comedy-category",category_img[0].img1)'>
+	        <img src="~/assets/comedy-text.png" alt="фильмы из категории комедия" id="comedy-category"  @click='category_go("comedy");' @mouseover="imgOver('#comedy-category',category_img[0].img2)" @mouseleave='imgLeave("#comedy-category",category_img[0].img1)'>
 
-	        <img src="~/assets/drama-text.png" alt="фильмы из категории драма, мелодрама" id="drama-category" @click='category_go("drama");RoutParm()' @mouseover="imgOver('#drama-category',category_img[1].img2)" @mouseleave='imgLeave("#drama-category",category_img[1].img1)'>
+	        <img src="~/assets/drama-text.png" alt="фильмы из категории драма, мелодрама" id="drama-category" @click='category_go("drama");' @mouseover="imgOver('#drama-category',category_img[1].img2)" @mouseleave='imgLeave("#drama-category",category_img[1].img1)'>
 
-	        <img src="~/assets/thriller-text.png" alt="фильмы из категории триллер" id="thriller-category" @click='category_go("thriller");RoutParm()' @mouseover="imgOver('#thriller-category',category_img[2].img2)" @mouseleave='imgLeave("#thriller-category",category_img[2].img1)'>
+	        <img src="~/assets/thriller-text.png" alt="фильмы из категории триллер" id="thriller-category" @click='category_go("thriller");' @mouseover="imgOver('#thriller-category',category_img[2].img2)" @mouseleave='imgLeave("#thriller-category",category_img[2].img1)'>
 	    </nav>
 
-    	<div v-if='category != "" && this.$route.params.search == false' id="response-category-block">
+    	<div id="response-category-block">
 
 	        <div id="label-film-category" class="animated fadeIn" v-if="video==false" :key="category.id">
 	        	<h2>{{category.name}}</h2>
 	        	<div style="position:relative;">
 		        	<img :src="'https://maximum-movies.com/'+category.img_url" alt="" id='film-img'>
-		        	<img v-if='category.url != ""' src="~/assets/play.png" alt="смотреть онлайн" id="film-img-after" @click='play'>
+		        	<img v-if="playshit" src="~/assets/play.png" alt="смотреть онлайн" id="film-img-after" @click='play'>
 	       		</div>
 	       		<p class="pt-3">{{category.description}}</p>	
 	        </div>      
@@ -51,32 +51,44 @@ import JQuery from 'jquery'
 				       }
 				       ],
 				    category:'',
-				    video:false
+				    video:false,
+				    playshit:false
 				}
+			},
+			mounted(){
+				
 			},
 		methods:{
 			al(){
 				//console.log(this.$route)
 			},
-			RoutParm(){
-				this.$route.query.search = false
-				this.$router.push({
-					params:{search:false}
-				})
-				//this.$route.query.search = false
-				//this.$route.fullPath = "/"
-			},
 		async category_go(category){			
 			this.video = false
 
-       		await this.$store.dispatch('category/fetchPost',category)
+			var FormData = require('form-data'); //собираем данные для отправки через FormData
+			var obj = new FormData();
+			obj.append('category', category);
 
-       		localStorage.setItem('titleFilm',this.$store.state.category.data.name)//для og разметки
-       		localStorage.setItem('imgOG',this.$store.state.category.data.img_url)//для og разметки
+			var res = await fetch('https://films-generator.ru/php/nav_main_film.php',{
+			    	method:'post',
+			    	body:obj
+			    }).then((res)=>{
+			    	return res.json();
+			    })
+			    .then((data)=>{
+			    	return data;
+			    })       		
 
-        	console.log(this.category) // а здесь уже с объектом
-        	console.log(this.$store.state.category.data.name)
-        	this.category = this.$store.state.category.data
+       		localStorage.setItem('titleFilm',res.name)//для og разметки
+       		localStorage.setItem('imgOG',res.img_url)//для og разметки        	
+        	
+        	this.category = res
+        	if(res.url != ''){
+        		this.playshit = true
+        	}else{
+        		this.playshit = false
+        	}
+        	console.log(this.category)
       },
       play(){
       	if(this.category.url !=''){ //если путь к видео в БД есть

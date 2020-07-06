@@ -10,6 +10,9 @@ module.exports = {
   */
 
   head: {
+    htmlAttrs: {
+      lang: 'ru-RU'
+    },
     title:'Выбрать Случайный фильм по категориям | films-generator',
     meta: [
       { charset: 'utf-8' },
